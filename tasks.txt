@@ -1,0 +1,10 @@
+treinos
+[] adicionar treino
+----[] adicionar exercicios ao treino
+[] listar treinos
+[] registrar execução treino - data hora calorias etc
+----[] registrar exercicios concluídos individualmente
+
+painel principal
+[] listagem dos últimos treinos
+[] calorias gastas no ultimo mês
