@@ -48,6 +48,15 @@ class TrainService {
 
   Future<List<Train>> getAllTrains() async {
     final db = await _dbHelper.database;
+    final trainsQueryResult = await db.query('trains');
+
+    final List<Train> trains =
+        trainsQueryResult.map((map) => Train.fromMap(map)).toList();
+    return trains;
+  }
+
+  Future<List<Train>> getAllTrainsWithExercises() async {
+    final db = await _dbHelper.database;
     final trainsMap = await db.query('trains');
 
     List<Train> trains = [];
@@ -61,9 +70,9 @@ class TrainService {
         WHERE te.train_id = ?
       ''', [trainId]);
 
-      final exercises = exercisesMap.map((e) => Exercise.fromMap(e)).toList();
+      // final exercises = exercisesMap.map((e) => Exercise.fromMap(e)).toList();
       final train = Train.fromMap(trainMap);
-      train.exercises!.addAll(exercises);
+      // train.exercises!.addAll(exercises);
       trains.add(train);
     }
 

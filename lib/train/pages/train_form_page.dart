@@ -1,6 +1,7 @@
+import 'package:blgym/exercise/exercise.dart';
 import 'package:blgym/exercise/exercise_controller.dart';
-import 'package:blgym/train/pages/exercice_train.dart';
 import 'package:blgym/train/train.dart';
+import 'package:blgym/train/train_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,8 @@ class TrainFormPage extends StatefulWidget {
 
 class TrainFormPageState extends State<TrainFormPage> {
   final _formKey = GlobalKey<FormState>();
-  late final String _formTrainName;
+  late String _formTrainName;
+  final List<Exercise> _trainExercises = [];
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class TrainFormPageState extends State<TrainFormPage> {
   Widget build(BuildContext context) {
     final exerciseController = Provider.of<ExerciseController>(context);
     final isEditing = widget.train != null;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(isEditing ? 'Edit Train' : 'Add Train'),
@@ -61,18 +64,22 @@ class TrainFormPageState extends State<TrainFormPage> {
                       value: exercise.done,
                       onChanged: (newValue) {
                         setState(() {
+                          newValue == true
+                              ? _trainExercises.add(exercise)
+                              : _trainExercises.remove(exercise);
                           exercise.done = newValue;
                         });
                       },
-                      controlAffinity: ListTileControlAffinity.platform,
+                      controlAffinity: ListTileControlAffinity.leading,
                       title: Text(exercise.name),
                       subtitle: Text(exercise.description!),
+                      secondary: Text('${exercise.series} x ${exercise.cargo}'),
                     );
                   },
                 ),
               ),
               ElevatedButton(
-                onPressed: _saveTrain,
+                onPressed: () => _saveTrain(_trainExercises),
                 child: Text(isEditing ? 'Update' : 'Add'),
               ),
             ],
@@ -82,5 +89,21 @@ class TrainFormPageState extends State<TrainFormPage> {
     );
   }
 
-  void _saveTrain() {}
+  void _saveTrain(List<Exercise> trainExercises) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final Train train = Train(
+        id: widget.train?.id,
+        name: _formTrainName,
+        exercises: trainExercises,
+      );
+      final trainController =
+          Provider.of<TrainController>(context, listen: false);
+      if (widget.train == null) {
+        trainController.addTrain(train);
+      } else {
+        trainController.updateTrain(train);
+      }
+    }
+  }
 }
