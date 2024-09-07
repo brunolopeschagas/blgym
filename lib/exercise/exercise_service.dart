@@ -1,6 +1,6 @@
 // lib/services/exercise_service.dart
 import 'exercise.dart';
-import '../shared/database_helper.dart';
+import '../shared/db/database_helper.dart';
 
 class ExerciseService {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
@@ -27,8 +27,9 @@ class ExerciseService {
   Future<List<Exercise>> getAllExercises() async {
     final db = await _dbHelper.database;
     final result = await db.query('exercises');
-
-    return result.map((map) => Exercise.fromMap(map)).toList();
+    final List<Exercise> exercises =
+        result.map((map) => Exercise.fromMap(map)).toList();
+    return exercises;
   }
 
   Future<int> updateExercise(Exercise exercise) async {
@@ -48,5 +49,23 @@ class ExerciseService {
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  Future<List<Exercise>> getAllTrainExercises(int trainId) async {
+    final db = await _dbHelper.database;
+
+    const String sql = """
+      SELECT e.* FROM exercises e
+      INNER JOIN train_exercises te ON e.id = te.exercise_id
+      WHERE te.train_id = ?
+    """;
+
+    final List<Map<String, Object?>> resultQuery =
+        await db.rawQuery(sql, [trainId]);
+
+    List<Exercise> exercises =
+        resultQuery.map((e) => Exercise.fromMap(e)).toList();
+
+    return exercises;
   }
 }

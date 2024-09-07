@@ -7,7 +7,10 @@ import 'package:provider/provider.dart';
 class ExerciseFormPage extends StatefulWidget {
   final Exercise? exercise;
 
-  const ExerciseFormPage({super.key, this.exercise});
+  const ExerciseFormPage({
+    super.key,
+    this.exercise,
+  });
 
   @override
   State<ExerciseFormPage> createState() => _ExerciseFormPageState();

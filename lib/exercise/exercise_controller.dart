@@ -9,12 +9,13 @@ class ExerciseController with ChangeNotifier {
 
   List<Exercise> get exercises => _exercises;
 
-  ExerciseController() {
-    fetchExercises();
-  }
-
   Future<void> fetchExercises() async {
     _exercises = await _exerciseService.getAllExercises();
+    notifyListeners();
+  }
+
+  Future<void> fetchTrainExercises(int trainId) async {
+    _exercises = await _exerciseService.getAllTrainExercises(trainId);
     notifyListeners();
   }
 

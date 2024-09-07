@@ -11,6 +11,7 @@ class ExerciseListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final exerciseController = Provider.of<ExerciseController>(context);
+    exerciseController.fetchExercises();
 
     return Scaffold(
       appBar: AppBar(

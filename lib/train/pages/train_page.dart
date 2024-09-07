@@ -1,4 +1,6 @@
+import 'package:blgym/train/pages/train_exercises_page.dart';
 import 'package:blgym/train/pages/train_form_page.dart';
+import 'package:blgym/train/train.dart';
 import 'package:blgym/train/train_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ class TrainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final trainController = Provider.of<TrainController>(context);
+    trainController.fetchTrains();
 
     return Scaffold(
       appBar: AppBar(
@@ -20,6 +23,10 @@ class TrainPage extends StatelessWidget {
           final train = trainController.trains[indexTrain];
           return ListTile(
             title: Text(train.name),
+            trailing: IconButton(
+              onPressed: () => _navigateToTrainExercices(context, train),
+              icon: const Icon(Icons.arrow_circle_right),
+            ),
           );
         },
       ),
@@ -35,6 +42,15 @@ class TrainPage extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => const TrainFormPage(),
+      ),
+    );
+  }
+
+  _navigateToTrainExercices(BuildContext context, Train train) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TrainExercisesPage(train: train),
       ),
     );
   }

@@ -104,6 +104,7 @@ class TrainFormPageState extends State<TrainFormPage> {
       } else {
         trainController.updateTrain(train);
       }
+      Navigator.pop(context);
     }
   }
 }

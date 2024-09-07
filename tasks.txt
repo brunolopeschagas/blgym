@@ -1,9 +1,12 @@
 treinos
-[] adicionar treino
+[v] adicionar treino
+[v] adicionar exercicios ao treino
+[v] listar treinos
+--[] listar exercicios do treino (click no treino)
+----[] remover exercicios do treino
 ----[] adicionar exercicios ao treino
-[] listar treinos
 [] registrar execução treino - data hora calorias etc
-----[] registrar exercicios concluídos individualmente
+[] registrar exercicios concluídos individualmente
 
 painel principal
 [] listagem dos últimos treinos
