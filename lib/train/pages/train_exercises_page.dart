@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:blgym/exercise/exercise.dart';
 import 'package:blgym/exercise/exercise_controller.dart';
-import 'package:blgym/train/train_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:blgym/train/train.dart';

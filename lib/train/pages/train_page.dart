@@ -1,5 +1,6 @@
 import 'package:blgym/train/pages/train_exercises_page.dart';
 import 'package:blgym/train/pages/train_form_page.dart';
+import 'package:blgym/train/widgets/train_delete_dialog.dart';
 import 'package:blgym/train/train.dart';
 import 'package:blgym/train/train_controller.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,18 @@ class TrainPage extends StatelessWidget {
         itemCount: trainController.trains.length,
         itemBuilder: (context, indexTrain) {
           final train = trainController.trains[indexTrain];
-          return ListTile(
-            title: Text(train.name),
-            trailing: IconButton(
-              onPressed: () => _navigateToTrainExercices(context, train),
-              icon: const Icon(Icons.arrow_circle_right),
+          return GestureDetector(
+            onLongPress: () => showDialog(
+              context: context,
+              builder: (_) => TrainDeleteDialog(trainId: train.id ?? 0),
+              barrierDismissible: true,
+            ),
+            child: ListTile(
+              title: Text(train.name),
+              trailing: IconButton(
+                onPressed: () => _navigateToTrainExercices(context, train),
+                icon: const Icon(Icons.arrow_circle_right),
+              ),
             ),
           );
         },

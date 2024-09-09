@@ -1,13 +1,23 @@
-treinos
+TREINOS
 [v] adicionar treino
 [v] adicionar exercicios ao treino
+--[] adicionar ordem de execucao ao exercicios
 [v] listar treinos
---[] listar exercicios do treino (click no treino)
+--[v] remover treino
+--[v] listar exercicios do treino (click no treino)
+----[] mostrar as cargas e reps dos exercicios na list
 ----[] remover exercicios do treino
 ----[] adicionar exercicios ao treino
 [] registrar execução treino - data hora calorias etc
 [] registrar exercicios concluídos individualmente
 
-painel principal
+PAINEL PRINCIPAL
 [] listagem dos últimos treinos
 [] calorias gastas no ultimo mês
+
+EXERCICIOS
+[v] adicionar exercicio
+[v] listar exercicios
+[v] editar exercicios
+![v] remover exercicios (exceto os ligados a um treino)
+[]registrar progressão de carga
