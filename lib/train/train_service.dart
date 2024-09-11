@@ -95,4 +95,11 @@ class TrainService {
       whereArgs: [id],
     );
   }
+
+  Future<int> removeExercise(int trainId, int exerciseId) async {
+    final db = await _dbHelper.database;
+    return await db.delete('train_exercises',
+        where: 'exercise_id = ? AND train_id = ?',
+        whereArgs: [trainId, exerciseId]);
+  }
 }

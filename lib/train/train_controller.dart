@@ -32,4 +32,9 @@ class TrainController with ChangeNotifier {
     await _trainService.deleteTrain(id);
     await fetchTrains();
   }
+
+  Future<void> removeExercise(int trainId, int exerciseId) async {
+    await _trainService.removeExercise(trainId, exerciseId);
+    await fetchTrains();
+  }
 }
