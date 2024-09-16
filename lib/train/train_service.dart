@@ -100,6 +100,6 @@ class TrainService {
     final db = await _dbHelper.database;
     return await db.delete('train_exercises',
         where: 'exercise_id = ? AND train_id = ?',
-        whereArgs: [trainId, exerciseId]);
+        whereArgs: [exerciseId, trainId]);
   }
 }

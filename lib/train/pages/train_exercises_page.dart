@@ -48,14 +48,20 @@ class _TrainExercisesPageState extends State<TrainExercisesPage> {
                 context: context,
                 builder: (context) {
                   return SimpleDialog(
-                    title: Text('Whats now?'),
+                    title: const Text('Whats now?'),
                     children: [
                       SimpleDialogOption(
-                        child: Text('Cancel'),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(fontSize: 30),
+                        ),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       SimpleDialogOption(
-                          child: Text('Delelete'),
+                          child: const Text(
+                            'Remove',
+                            style: TextStyle(fontSize: 30),
+                          ),
                           onPressed: () {
                             trainController.removeExercise(
                                 _train.id!, exercise.id!);
@@ -70,9 +76,22 @@ class _TrainExercisesPageState extends State<TrainExercisesPage> {
             child: ListTile(
               title: Text(
                 exercise.name,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
-              subtitle: Text(exercise.description!),
-              trailing: Text('${exercise.series} x ${exercise.cargo}'),
+              subtitle: Text(
+                exercise.description!,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+              trailing: Text(
+                '${exercise.series} x ${exercise.cargo}',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
             ),
           );
         },

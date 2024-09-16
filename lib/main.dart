@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:blgym/exercise/exercise_controller.dart';
 import 'package:blgym/shared/page/home_page.dart';
+import 'package:blgym/shared/theme/light_mode.dart';
 import 'package:blgym/train/train_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +31,7 @@ class ExerciseRoutineManagerApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Exercise Routine Manager',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: lightMode,
         home: const HomePage(),
       ),
     );

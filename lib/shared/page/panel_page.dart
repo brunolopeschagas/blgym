@@ -10,6 +10,6 @@ class PanelPage extends StatefulWidget {
 class _PanelPageState extends State<PanelPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container();
   }
 }
