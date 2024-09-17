@@ -31,8 +31,9 @@ class TrainFormPageState extends State<TrainFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    final exerciseController = Provider.of<ExerciseController>(context);
     final isEditing = widget.train != null;
+    final exerciseController = Provider.of<ExerciseController>(context);
+    exerciseController.fetchExercises();
 
     return Scaffold(
       appBar: AppBar(
