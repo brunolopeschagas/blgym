@@ -32,58 +32,64 @@ class TrainFormPageState extends State<TrainFormPage> {
   @override
   Widget build(BuildContext context) {
     final isEditing = widget.train != null;
-    final exerciseController = Provider.of<ExerciseController>(context);
-    exerciseController.fetchExercises();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(isEditing ? 'Edit Train' : 'Add Train'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextFormField(
-                initialValue: _formTrainName,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Please enter a name'
-                    : null,
-                onSaved: (newValue) => _formTrainName = newValue!,
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: exerciseController.exercises.length,
-                  itemBuilder: (context, index) {
-                    final exercise = exerciseController.exercises[index];
-                    return CheckboxListTile(
-                      value: exercise.done,
-                      onChanged: (newValue) {
-                        setState(() {
-                          newValue == true
-                              ? _trainExercises.add(exercise)
-                              : _trainExercises.remove(exercise);
-                          exercise.done = newValue;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: Text(exercise.name),
-                      subtitle: Text(exercise.description!),
-                      secondary: Text('${exercise.series} x ${exercise.cargo}'),
-                    );
-                  },
+    final exerciseController = context.read<ExerciseController>();
+    if (exerciseController.exercises.isEmpty) {
+      exerciseController.fetchExercises();
+    }
+
+    return Consumer<ExerciseController>(
+      builder: (context, value, child) => Scaffold(
+        appBar: AppBar(
+          title: Text(isEditing ? 'Edit Train' : 'Add Train'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextFormField(
+                  initialValue: _formTrainName,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                  validator: (value) => value == null || value.isEmpty
+                      ? 'Please enter a name'
+                      : null,
+                  onSaved: (newValue) => _formTrainName = newValue!,
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () => _saveTrain(_trainExercises),
-                child: Text(isEditing ? 'Update' : 'Add'),
-              ),
-            ],
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: exerciseController.exercises.length,
+                    itemBuilder: (context, index) {
+                      final exercise = exerciseController.exercises[index];
+                      return CheckboxListTile(
+                        value: exercise.done,
+                        onChanged: (newValue) {
+                          setState(() {
+                            newValue == true
+                                ? _trainExercises.add(exercise)
+                                : _trainExercises.remove(exercise);
+                            exercise.done = newValue;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: Text(exercise.name),
+                        subtitle: Text(exercise.description!),
+                        secondary:
+                            Text('${exercise.series} x ${exercise.cargo}'),
+                      );
+                    },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => _saveTrain(_trainExercises),
+                  child: Text(isEditing ? 'Update' : 'Add'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

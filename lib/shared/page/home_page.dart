@@ -15,6 +15,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('home page');
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: <Widget>[
