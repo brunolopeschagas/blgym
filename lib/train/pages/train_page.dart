@@ -6,13 +6,24 @@ import 'package:blgym/train/train_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TrainPage extends StatelessWidget {
+class TrainPage extends StatefulWidget {
   const TrainPage({super.key});
+
+  @override
+  State<TrainPage> createState() => _TrainPageState();
+}
+
+class _TrainPageState extends State<TrainPage> {
+  @override
+  void initState() {
+    super.initState();
+    final trainController = context.read<TrainController>();
+    trainController.fetchTrains();
+  }
 
   @override
   Widget build(BuildContext context) {
     final trainController = Provider.of<TrainController>(context);
-    trainController.fetchTrains();
 
     return Scaffold(
       appBar: AppBar(

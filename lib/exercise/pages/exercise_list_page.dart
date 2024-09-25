@@ -5,14 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'exercise_form_page.dart';
 
-class ExerciseListPage extends StatelessWidget {
+class ExerciseListPage extends StatefulWidget {
   const ExerciseListPage({super.key});
+
+  @override
+  State<ExerciseListPage> createState() => _ExerciseListPageState();
+}
+
+class _ExerciseListPageState extends State<ExerciseListPage> {
+  @override
+  void initState() {
+    super.initState();
+    final exerciseController = context.read<ExerciseController>();
+    exerciseController.fetchExercises();
+  }
 
   @override
   Widget build(BuildContext context) {
     final exerciseController = Provider.of<ExerciseController>(context);
-    exerciseController.fetchExercises();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Exercises'),
