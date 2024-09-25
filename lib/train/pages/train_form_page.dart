@@ -27,6 +27,9 @@ class TrainFormPageState extends State<TrainFormPage> {
     } else {
       _formTrainName = '';
     }
+
+    final exerciseController = context.read<ExerciseController>();
+    exerciseController.fetchExercises();
   }
 
   @override
@@ -34,33 +37,32 @@ class TrainFormPageState extends State<TrainFormPage> {
     final isEditing = widget.train != null;
 
     final exerciseController = context.read<ExerciseController>();
-    if (exerciseController.exercises.isEmpty) {
-      exerciseController.fetchExercises();
-    }
 
-    return Consumer<ExerciseController>(
-      builder: (context, value, child) => Scaffold(
-        appBar: AppBar(
-          title: Text(isEditing ? 'Edit Train' : 'Add Train'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextFormField(
-                  initialValue: _formTrainName,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                  validator: (value) => value == null || value.isEmpty
-                      ? 'Please enter a name'
-                      : null,
-                  onSaved: (newValue) => _formTrainName = newValue!,
-                ),
-                const SizedBox(height: 20),
-                Expanded(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(isEditing ? 'Edit Train' : 'Add Train'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextFormField(
+                initialValue: _formTrainName,
+                decoration: const InputDecoration(labelText: 'Name'),
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Please enter a name'
+                    : null,
+                onSaved: (newValue) => _formTrainName = newValue!,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Consumer<ExerciseController>(
+                builder: (context, value, child) => Expanded(
                   child: ListView.builder(
                     itemCount: exerciseController.exercises.length,
                     itemBuilder: (context, index) {
@@ -84,12 +86,12 @@ class TrainFormPageState extends State<TrainFormPage> {
                     },
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () => _saveTrain(_trainExercises),
-                  child: Text(isEditing ? 'Update' : 'Add'),
-                ),
-              ],
-            ),
+              ),
+              ElevatedButton(
+                onPressed: () => _saveTrain(_trainExercises),
+                child: Text(isEditing ? 'Update' : 'Add'),
+              ),
+            ],
           ),
         ),
       ),

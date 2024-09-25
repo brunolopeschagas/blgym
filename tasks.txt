@@ -7,6 +7,7 @@ TREINOS
 --[v] listar exercicios do treino (click no treino)
 ----[v] mostrar as cargas e reps dos exercicios na list
 ----[v] remover exercicios do treino
+----[v] bugfix: listando mesmo exercicios para todos os treinos
 ----[] adicionar exercicios ao treino
 ----[] mudar a ordem dos exercicio no treino
 [] registrar execução treino - data hora calorias etc

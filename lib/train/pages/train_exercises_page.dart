@@ -28,13 +28,8 @@ class _TrainExercisesPageState extends State<TrainExercisesPage> {
     _train = widget.train;
     final trainController = context.read<TrainController>();
     final exerciseController = context.read<ExerciseController>();
-    if (exerciseController.exercises.isEmpty) {
-      exerciseController.fetchTrainExercises(_train.id ?? 0);
-    }
-    if (trainController.trains.isEmpty) {
-      trainController.fetchTrains();
-    }
-    print('loading train exercises');
+    exerciseController.fetchTrainExercises(_train.id ?? 0);
+    trainController.fetchTrains();
   }
 
   @override
@@ -50,60 +45,74 @@ class _TrainExercisesPageState extends State<TrainExercisesPage> {
         itemCount: exerciseController.exercises.length,
         itemBuilder: (context, index) {
           final Exercise exercise = exerciseController.exercises[index];
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return SimpleDialog(
-                    title: const Text('Whats now?'),
-                    children: [
-                      SimpleDialogOption(
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(fontSize: 30),
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      SimpleDialogOption(
-                          child: const Text(
-                            'Remove',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          onPressed: () {
-                            trainController.removeExercise(
-                                _train.id!, exercise.id!);
-                            exerciseController.fetchTrainExercises(_train.id!);
-                            Navigator.of(context).pop();
-                          }),
-                    ],
-                  );
-                },
-              );
-            },
-            child: ListTile(
-              title: Text(
-                exercise.name,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+          return ListTile(
+            title: Text(
+              exercise.name,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
               ),
-              subtitle: Text(
-                exercise.description!,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
+            ),
+            subtitle: Text(
+              exercise.description!,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
               ),
-              trailing: Text(
-                '${exercise.series} x ${exercise.cargo}',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '${exercise.series} x ${exercise.cargo}',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
                 ),
-              ),
+                const SizedBox(
+                  width: 20,
+                ),
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return SimpleDialog(
+                          title: const Text('Whats now?'),
+                          children: [
+                            SimpleDialogOption(
+                              child: const Text(
+                                'Cancel',
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            SimpleDialogOption(
+                                child: const Text(
+                                  'Remove',
+                                  style: TextStyle(fontSize: 30),
+                                ),
+                                onPressed: () {
+                                  removeExerciseFromTrain(trainController,
+                                      exercise, exerciseController);
+                                  Navigator.of(context).pop();
+                                }),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
+              ],
             ),
           );
         },
       ),
     );
+  }
+
+  void removeExerciseFromTrain(TrainController trainController,
+      Exercise exercise, ExerciseController exerciseController) {
+    trainController.removeExercise(_train.id!, exercise.id!);
+    exerciseController.fetchTrainExercises(_train.id!);
   }
 }
